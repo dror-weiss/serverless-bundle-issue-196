@@ -1,0 +1,20 @@
+# Ignore everything but descend into directories
+*
+!*/
+
+# Allow
+!/.idea/runConfigurations/**
+!/.editorconfig
+!/.gitignore
+!/package.json
+!/serverless.yml
+!/tsconfig.json
+!/README.md
+
+# Ignore inside allowed directories
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+
+# Ignore always
+.env.*.local

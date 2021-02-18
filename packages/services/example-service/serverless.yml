@@ -1,0 +1,41 @@
+service: webhook-service
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-iam-roles-per-function
+
+custom:
+  bundle:
+    sourcemaps: true
+    caching: true
+    stats: false
+    linting: false
+    disableForkTsChecker: false
+    tsConfig: "tsconfig.json"
+    packager: npm
+    forceBundle:
+      - "@common/utils"
+  serverless-offline:
+    providedRuntime: ${self:custom.runtime}
+  region: ${opt:region, 'us-west-2'}
+  runtime: ${opt:region, 'nodejs12.x'}
+  stage: ${opt:stage, 'local'}
+
+provider:
+  name: aws
+  region: ${self:custom.region}
+  runtime: ${self:custom.runtime}
+
+functions:
+  example-service:
+    handler: src/functions/example-service/lambda.handler
+    timeout: 10
+    memorySize: 128
+    events:
+      - http:
+          method: ANY
+          path: /hello
